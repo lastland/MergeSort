@@ -15,13 +15,16 @@ object DivideList {
   /*
    We provide a foldable instance for DivideList.
    */
-  implicit def divideListFoldable: Foldable[DivideList] =
+  implicit val divideListFoldable: Foldable[DivideList] =
     new Foldable[DivideList] {
       override def foldMap[A, B: Monoid](fa: DivideList[A])(f: A => B): B =
         fa.divide match {
           case (DivideList(List()), DivideList(bs)) =>
-            // the following code shows a syntactic sugar in Scala,
-            // it is equivalent to bs.foldMap(f)
+            // Because of the way we divide the list, `bs` can only be
+            // an empty or singleton list in this case, so it's fine
+            // to foldMap on the list. The following code also shows a
+            // syntactic sugar in Scala, it is equivalent to:
+            // bs.foldMap(f).
             bs foldMap f
           case (as, bs) =>
             // this is equivalent to as.foldMap(f).combine(bs.foldMap(f))

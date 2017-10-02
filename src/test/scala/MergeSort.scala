@@ -8,25 +8,19 @@ import MergeSort._
 
 object MergeSortSpecification extends Properties("MergeSort") {
 
-  def isOrdered[A: Order](a: List[A]): Boolean = a match {
-    case (x :: y :: zs) => x <= y && isOrdered(zs)
-    case _ => true
-  }
-
-  property("isOrdered") = forAll { a: List[Int] =>
-    isOrdered(realMergeSort(a))
-  }
-
   property("idemp") = forAll { a: List[Int] =>
-    realMergeSort(realMergeSort(a)) == realMergeSort(a)
+    val b = realMergeSort(a)
+    realMergeSort(b) == b
   }
 
-  property("min") = forAll { a: List[Int] =>
-    !a.isEmpty ==> (realMergeSort(a).head == a.min)
+  property("min") = forAll { (a: List[Int], b: Int) =>
+    val l = b :: a
+    realMergeSort(l).head == l.min
   }
 
-  property("max") = forAll { a: List[Int] =>
-    !a.isEmpty ==> (realMergeSort(a).last == a.max)
+  property("max") = forAll { (a: List[Int], b: Int) =>
+    val l = b :: a
+    realMergeSort(l).last == l.max
   }
 
   property("sort") = forAll { a: List[Int] =>

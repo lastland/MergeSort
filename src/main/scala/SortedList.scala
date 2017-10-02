@@ -34,9 +34,9 @@ object SortedList {
   implicit def sortedListMonoid[A: Order]: Monoid[SortedList[A]] =
     new Monoid[SortedList[A]] {
       // mempty is called empty
-      def empty: SortedList[A] = SortedListImpl(List[A]())
+      def empty = SortedListImpl(List[A]())
       // mappend is called combine
-      def combine(a: SortedList[A], b: SortedList[A]): SortedList[A] =
+      def combine(a: SortedList[A], b: SortedList[A]) =
         (a, b) match {
           // pattern matching is supported in Scala
           case (SortedListImpl(x), SortedListImpl(y)) =>
